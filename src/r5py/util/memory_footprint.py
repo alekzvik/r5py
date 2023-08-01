@@ -3,13 +3,14 @@
 """Determine a reasonable memory footprint for the Java virtual machine."""
 
 
-import psutil
+import os
 import re
 import warnings
 
+import psutil
+
 from .config import Config
 from .warnings import R5pyWarning
-
 
 __all__ = ["MAX_JVM_MEMORY"]
 
@@ -180,4 +181,6 @@ def _get_max_memory(max_memory):
     return max_memory
 
 
-MAX_JVM_MEMORY = _get_max_memory(config.arguments.max_memory)
+MAX_JVM_MEMORY = _get_max_memory(
+    os.getenv("R5_MAX_MEMORY", config.arguments.max_memory)
+)
